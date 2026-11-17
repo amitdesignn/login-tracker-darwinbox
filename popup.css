@@ -1,0 +1,203 @@
+/* Clean, warm-neutral palette with a teal accent */
+:root {
+  --bg: #f7f6f3;
+  --card: #ffffff;
+  --surface: #f1efea;
+  --surface-hover: #e8e5df;
+  --border: #ebe8e2;
+  --text: #2c2a27;
+  --muted: #8b867e;
+  --track: #ecebe6;
+
+  --accent: #2f8f83;
+  --accent-strong: #23746a;
+  --accent-soft: #e3f2ef;
+  --ring-a: #56b9a5;
+  --ring-b: #2f8f83;
+
+  --done: #3f9a5a;
+  --done-soft: #e5f4e8;
+  --warn: #b7792f;
+  --warn-soft: #faf0e2;
+
+  --shadow: 0 1px 2px rgba(44, 42, 39, 0.04), 0 4px 14px rgba(44, 42, 39, 0.05);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  color-scheme: light;
+}
+
+body.done {
+  --ring-a: #7cc98d;
+  --ring-b: #3f9a5a;
+}
+
+/* iOS-style continuous corners (Chrome 139+); plain rounded corners elsewhere */
+.pill, .icon-btn, .facts, .setting, .stepper button, .segmented, .segmented button,
+.days button, .cta, .url-field, .url-row button {
+  corner-shape: squircle;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  width: 296px;
+  margin: 0;
+  padding: 14px 16px 16px;
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; }
+
+header { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; }
+.title { font-weight: 600; font-size: 15px; flex: 1; }
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+body.has-data:not(.done) .dot { animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border: 0; border-radius: var(--r-sm);
+  background: transparent; color: var(--muted); cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.icon-btn:hover { background: var(--surface); color: var(--text); }
+
+/* Progress ring */
+.ring-wrap { position: relative; width: 168px; height: 168px; margin: 10px auto 16px; }
+.ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 9; }
+.track { stroke: var(--track); }
+.progress {
+  stroke: url(#grad);
+  stroke-linecap: round;
+  stroke-dasharray: 326.73;
+  stroke-dashoffset: 326.73;
+  transition: stroke-dashoffset .6s ease;
+}
+.ring-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.elapsed { font-size: 30px; font-weight: 650; letter-spacing: -0.8px; font-variant-numeric: tabular-nums; }
+.caption { color: var(--muted); font-size: 12px; margin-top: 1px; }
+body.done .caption { color: var(--done); font-weight: 600; }
+
+/* Secondary facts */
+.facts {
+  display: grid; grid-template-columns: 1fr 1fr;
+  margin-top: 10px; padding: 12px 0;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); box-shadow: var(--shadow);
+}
+.fact { padding: 0 16px; }
+.fact + .fact { border-left: 1px solid var(--track); }
+.label { color: var(--muted); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; }
+.value { font-size: 14.5px; font-weight: 600; margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+.note { color: var(--muted); font-size: 11px; text-align: center; margin: 10px 0 0; }
+.note:empty { display: none; }
+.empty { color: var(--muted); font-size: 12px; text-align: center; margin: 12px 0 0; }
+
+/* States */
+body.done .pill { color: var(--done); background: var(--done-soft); }
+body.holiday .pill { color: var(--muted); background: var(--surface); }
+body.has-data .empty { display: none; }
+body:not(.has-data) .facts { display: none; }
+body.idle .pill { color: var(--warn); background: var(--warn-soft); }
+body.idle .elapsed { color: var(--muted); }
+body.idle .empty { display: none; }
+
+.cta {
+  display: block; width: 100%; height: 38px; margin-top: 12px;
+  border: 0; border-radius: var(--r-md); cursor: pointer;
+  background: var(--accent); color: #fff; font-weight: 600;
+  transition: background .15s;
+}
+.cta:hover { background: var(--accent-strong); }
+
+/* Settings */
+#settings header { justify-content: flex-start; margin-bottom: 12px; }
+.setting {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 14px;
+  box-shadow: var(--shadow);
+}
+.setting + .setting { margin-top: 10px; }
+.setting.stacked { flex-direction: column; align-items: stretch; gap: 10px; }
+.setting-name { font-weight: 600; }
+.setting-desc { color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+/* Target presets: segmented control */
+.segmented {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
+  padding: 3px; border-radius: var(--r-md); background: var(--surface);
+}
+.segmented button {
+  height: 30px; border: 0; border-radius: var(--r-sm); cursor: pointer;
+  background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; white-space: nowrap;
+  transition: background .15s, color .15s, box-shadow .15s;
+}
+.segmented button:hover:not(.on) { color: var(--text); }
+.segmented button.on { background: var(--card); color: var(--accent-strong); box-shadow: 0 1px 3px rgba(44, 42, 39, .12); }
+
+.custom-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 10px; border-top: 1px solid var(--track);
+}
+.custom-label { color: var(--muted); font-size: 12px; font-weight: 500; }
+
+.stepper { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.stepper button {
+  width: 28px; height: 28px; border: 0; border-radius: var(--r-sm); cursor: pointer;
+  background: var(--surface); color: var(--text); font-size: 15px; line-height: 1;
+  transition: background .15s;
+}
+.stepper button:hover:not(:disabled) { background: var(--surface-hover); }
+.stepper button:disabled { opacity: .4; cursor: default; }
+#targetValue { min-width: 60px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.url-row { display: flex; gap: 6px; margin: 0; }
+.url-field {
+  flex: 1; min-width: 0; display: flex; align-items: center;
+  height: 34px; padding: 0 10px;
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  background: var(--bg); transition: border-color .15s, background .15s;
+}
+.url-field:focus-within { border-color: var(--accent); background: var(--card); }
+.url-field input {
+  flex: 1; min-width: 0; border: 0; padding: 0; background: transparent;
+  color: var(--text); font: inherit; font-size: 12.5px; outline: none;
+}
+.url-field input::placeholder { color: var(--muted); }
+.url-suffix { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.url-row button {
+  height: 34px; padding: 0 14px; border: 0; border-radius: var(--r-sm); cursor: pointer;
+  background: var(--accent); color: #fff; font-weight: 600;
+  transition: background .15s;
+}
+.url-row button:hover { background: var(--accent-strong); }
+.url-status { font-size: 11px; color: var(--muted); }
+.url-status:empty { display: none; }
+.url-status.ok { color: var(--accent); }
+.url-status.error { color: #c0665a; }
+
+.days { display: flex; justify-content: space-between; gap: 5px; }
+.days button {
+  flex: 1; height: 30px; border: 0; border-radius: var(--r-sm); cursor: pointer;
+  background: var(--surface); color: var(--muted); font-weight: 600; font-size: 12px;
+  transition: background .15s, color .15s;
+}
+.days button:hover { background: var(--surface-hover); }
+.days button.on { background: var(--accent); color: #fff; }
+.days button.on:hover { background: var(--accent-strong); }
+/* Hide the round cap dot when there's no progress yet */
+body:not(.has-data) .progress { opacity: 0; }

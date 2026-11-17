@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Login Tracker</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main id="main">
+    <header>
+      <span class="pill"><span class="dot"></span><span id="pill">Loading…</span></span>
+      <button class="icon-btn" id="openSettings" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+      </button>
+    </header>
+
+    <div class="ring-wrap">
+      <svg class="ring" viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="var(--ring-a)" />
+            <stop offset="100%" stop-color="var(--ring-b)" />
+          </linearGradient>
+        </defs>
+        <circle class="track" cx="60" cy="60" r="52" />
+        <circle class="progress" id="progress" cx="60" cy="60" r="52" />
+      </svg>
+      <div class="ring-center">
+        <div class="elapsed" id="elapsed">--</div>
+        <div class="caption" id="caption"></div>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact">
+        <div class="label">Clocked in</div>
+        <div class="value" id="clockin">—</div>
+      </div>
+      <div class="fact">
+        <div class="label">Time left</div>
+        <div class="value" id="timeLeft">—</div>
+      </div>
+    </div>
+
+    <p class="note" id="note"></p>
+    <p class="empty" id="empty"></p>
+    <button class="cta" id="openDb" hidden>Open Darwinbox</button>
+  </main>
+
+  <section id="settings" hidden>
+    <header>
+      <button class="icon-btn" id="closeSettings" title="Back" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <span class="title">Settings</span>
+    </header>
+
+    <div class="setting stacked">
+      <div>
+        <div class="setting-name">Darwinbox URL</div>
+        <div class="setting-desc">Your company's Darwinbox address. Stored only in this browser.</div>
+      </div>
+      <form class="url-row" id="urlForm">
+        <div class="url-field">
+          <input id="urlInput" type="text" placeholder="yourcompany" spellcheck="false" autocomplete="off" />
+          <span class="url-suffix">.darwinbox.in</span>
+        </div>
+        <button type="submit">Save</button>
+      </form>
+      <div class="url-status" id="urlStatus"></div>
+    </div>
+
+    <div class="setting stacked">
+      <div>
+        <div class="setting-name">Target hours</div>
+        <div class="setting-desc">Leave time = clock-in + target. You'll get a notification then.</div>
+      </div>
+      <div class="segmented" id="presets">
+        <button data-hours="5">5h</button>
+        <button data-hours="5.5">5h 30m</button>
+        <button data-hours="6">6h</button>
+      </div>
+      <div class="custom-row">
+        <span class="custom-label">Custom</span>
+        <div class="stepper">
+          <button id="dec" aria-label="Decrease">−</button>
+          <span id="targetValue">5h</span>
+          <button id="inc" aria-label="Increase">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting stacked">
+      <div>
+        <div class="setting-name">Work days</div>
+        <div class="setting-desc">Other days show as a holiday with no tracking.</div>
+      </div>
+      <div class="days" id="days">
+        <button data-day="1" title="Monday">M</button>
+        <button data-day="2" title="Tuesday">T</button>
+        <button data-day="3" title="Wednesday">W</button>
+        <button data-day="4" title="Thursday">T</button>
+        <button data-day="5" title="Friday">F</button>
+        <button data-day="6" title="Saturday">S</button>
+        <button data-day="0" title="Sunday">S</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>
