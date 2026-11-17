@@ -19,6 +19,15 @@ const fmtShort = (ms) => {
 const fmtHours = (h) => (Number.isInteger(h) ? `${h}h` : `${Math.floor(h)}h 30m`);
 const send = (msg) => chrome.runtime.sendMessage(msg);
 
+const measureCtx = document.createElement("canvas").getContext("2d");
+
+function resizeUrlInput() {
+  const input = $("urlInput");
+  measureCtx.font = getComputedStyle(input).font;
+  const width = measureCtx.measureText(input.value || input.placeholder).width;
+  input.style.width = `${Math.ceil(width) + 2}px`; // +2px for the text cursor
+}
+
 let state = null;
 
 function renderSettings(target) {
@@ -34,6 +43,7 @@ function renderSettings(target) {
     const hostname = state?.origin ? new URL(state.origin).hostname : "";
     $("urlInput").value = hostname.replace(/\.darwinbox\.(in|com)$/i, "");
   }
+  resizeUrlInput();
 }
 
 function render() {
@@ -89,7 +99,7 @@ function render() {
   $("progress").style.strokeDashoffset = CIRCUMFERENCE * (1 - Math.min(1, elapsed / targetMs));
   $("elapsed").textContent = fmtDur(elapsed);
   $("clockin").textContent = fmtTime(state.clockIn);
-  $("timeLeft").textContent = done ? "0h 00m" : fmtDur(targetMs - elapsed);
+  $("timeLeft").textContent = done ? "✓" : fmtDur(targetMs - elapsed);
 
   $("pill").textContent = done ? "Target reached" : "Tracking";
   $("caption").textContent = done ? `+${fmtShort(elapsed - targetMs)} extra` : `of ${fmtHours(target)}`;
@@ -132,6 +142,8 @@ $("days").addEventListener("click", (e) => {
   days.has(+day) ? days.delete(+day) : days.add(+day);
   update({ type: "setWorkDays", days: [...days] });
 });
+
+$("urlInput").addEventListener("input", resizeUrlInput);
 
 $("urlForm").addEventListener("submit", async (e) => {
   e.preventDefault();

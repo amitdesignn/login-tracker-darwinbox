@@ -174,7 +174,8 @@ body.idle .empty { display: none; }
 }
 .url-field:focus-within { border-color: var(--accent); background: var(--card); }
 .url-field input {
-  flex: 1; min-width: 0; border: 0; padding: 0; background: transparent;
+  flex: 0 1 auto; width: 8ch; min-width: 2ch; max-width: 100%;
+  border: 0; padding: 0; background: transparent;
   color: var(--text); font: inherit; font-size: 12.5px; outline: none;
 }
 .url-field input::placeholder { color: var(--muted); }

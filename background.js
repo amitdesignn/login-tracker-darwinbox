@@ -214,7 +214,7 @@ async function refresh() {
 
   const mins = Math.floor(Math.max(0, targetMs - elapsed) / 60000);
   chrome.action.setBadgeText({
-    text: tracking ? (done ? "0:00" : `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, "0")}`) : "",
+    text: tracking ? (done ? "✓" : `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, "0")}`) : "",
   });
   chrome.action.setBadgeBackgroundColor({ color: done ? "#79a87d" : "#6f9c8e" });
 }
